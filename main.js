@@ -1,11 +1,6 @@
 $(main);
 
 
-function folded_msn() {
-    return /-2037-/;
-}
-
-
 function main() {
     fix_title();
     //fix "popup" protocol
@@ -51,6 +46,30 @@ function force_new()
 }
 
 function rejig_effectivity() {
+    var msn = "2037";
+    var query_pos = window.location.href.search(/\?/);
+    if(query_pos != -1) {
+	var query = window.location.href.substring(query_pos + 1);
+	var pairs = query.split("&");
+	for(var c = 0; c < pairs.length; c++) {
+	    if(pairs[c].substring(0, 4) != "msn=") {
+		continue;
+	    }
+	    msn = pairs[c].substring(4);
+	    $("a").each(
+		function() {
+		    var href = $(this).attr("href");
+		    if(! href) {return;}
+		    if(href.search(/\?/) == -1) {
+			$(this).attr("href", href + "?msn=" + msn);
+		    }
+		    else {
+			$(this).attr("href", href + "&msn=" + msn);
+		}
+	    });
+	    break;
+	}
+    }
     var section_groups = {};
     $("div.effectivity").each(
 	function() {
@@ -66,7 +85,7 @@ function rejig_effectivity() {
 	var not_effective = [];
 	for(j in section_groups[i]) {
 	    var effectivity = section_groups[i][j].attr("id");
-	    if(effectivity.search(folded_msn()) != -1) {
+	    if(effectivity.search(RegExp("-" + msn + "-")) != -1) {
 		section_groups[i][j].addClass("effective");
 		effective = section_groups[i][j];
 	    }
