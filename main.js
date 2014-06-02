@@ -14,6 +14,8 @@ function main() {
     $("div.vstidenttext").each(hide_if_all);
     //add keyhandling
     $(document).keypress(keypress_handler);
+    //remove L1,L2,L3 indicators
+    $(".vstsideheadindicator").each(remove_Ln);
 }
 
 
@@ -149,5 +151,12 @@ function fold_toc_section() {
 	var control = $("<span class='control'></span>");
 	vte.find(".vsttocentrytext").prepend(control);
 	control.click(function() {vte.toggleClass("folded");});
+    }
+}
+
+function remove_Ln()
+{
+    if($(this).text().match(/^L\d+$/)) {
+	$(this).remove();
     }
 }
