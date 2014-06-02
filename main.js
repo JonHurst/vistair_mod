@@ -2,6 +2,7 @@ $(main);
 
 
 function main() {
+    rejig_effectivity();
     fix_title();
     //fix "popup" protocol
     $("img").each(fix_popup_image);
@@ -13,8 +14,6 @@ function main() {
     $("div.vstidenttext").each(hide_if_all);
     //add keyhandling
     $(document).keypress(keypress_handler);
-    //rejig effectivity
-    rejig_effectivity();
 }
 
 
@@ -32,10 +31,11 @@ function fix_title() {
 }
 
 function fix_popup_image() {
-    var popup_href = $(this).parent().attr("href");
-    popup_href = popup_href.replace(/popup:\/\//, "");
-    $(this).parent().attr("href", popup_href);
-    $(this).parent().click(force_new);
+    $(this).click(
+	function() {
+	    window.open($(this).parent().attr("href").replace(/popup:\/\//, ""));
+	    return false;
+	});
 }
 
 function force_new()
