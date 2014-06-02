@@ -132,10 +132,12 @@ function hide_if_all() {
 
 function keypress_handler(ev) {
     if(ev.which == 110) {
-	window.location = $(".navbottom a").attr("href");
+	var l = $(".navbottom a").attr("href");
+	if(l) {window.location = l;}
     }
     else if(ev.which == 112) {
-	window.location = $(".navtop a").attr("href");
+	var l = $(".navtop a").attr("href");
+	if(l) {window.location = l;}
     }
     return true;n
 }
