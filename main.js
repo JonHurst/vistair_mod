@@ -14,8 +14,8 @@ function main() {
     $("div.vstidenttext").each(hide_if_all);
     //add keyhandling
     $(document).keypress(keypress_handler);
-    //remove L1,L2,L3 indicators
-    $(".vstsideheadindicator").each(remove_Ln);
+    //scroll hash back into view - may have been messed around by re-ordering
+    scroll_to_hash();
 }
 
 
@@ -154,9 +154,19 @@ function fold_toc_section() {
     }
 }
 
-function remove_Ln()
-{
-    if($(this).text().match(/^L\d+$/)) {
-	$(this).remove();
+
+function scroll_to_hash() {
+    var hash_pos = window.location.href.search(/\#/);
+    if(hash_pos != -1) {
+	var hash = window.location.href.substring(hash_pos + 1).split("?")[0];
+	var hash_element = document.getElementById(hash);
+	console.log(hash_element);
+	$(hash_element).addClass("show");
+	var effectivity_parent = $(hash_element).parents(".effectivity");
+	if(effectivity_parent.length) {
+	    effectivity_parent.removeClass("hidden");
+	    effectivity_parent.next().removeClass("hiding");
+	}
+	hash_element.scrollIntoView(); 
     }
 }
