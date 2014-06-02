@@ -16,7 +16,7 @@ div.effectivity.hidden {display:none;}
     overflow-x:auto;
     line-height: 1.5;
 }
-p {text-indent:2em;}
+p {text-indent:1.5em;}
 div p:first-child {text-indent:0;}
 body {background-color: #404040;}
 
