@@ -1,10 +1,13 @@
 $(main);
 
+
 function folded_msn() {
     return /-2037-/;
 }
 
+
 function main() {
+    fix_title();
     //fix "popup" protocol
     $("img").each(fix_popup_image);
     //anchors in vsttoc sections open links in new tabs
@@ -13,7 +16,14 @@ function main() {
     $(".vsttocentry-psl-withtab").each(fold_toc_section);
     //hide "Applicable to: ALL"
     $("div.vstidenttext").each(hide_if_all);
-    //find first bookmark_title and make it the title
+    //add keyhandling
+    $(document).keypress(keypress_handler);
+    //rejig effectivity
+    rejig_effectivity();
+}
+
+
+function fix_title() {
     var last_plp = $(".product").find(".psl:last");
     var title = last_plp.children("a").attr("name");
     if(title == "PLP-TOC") {
@@ -23,10 +33,7 @@ function main() {
 	document.title = title;
     }
     $("#pageheader").prepend("<div id='page_title'>" + title + "</div>");
-    //add keyhandling
-    $(document).keypress(keypress_handler);
-    //rejig effectivity
-    rejig_effectivity();
+   
 }
 
 function fix_popup_image() {
