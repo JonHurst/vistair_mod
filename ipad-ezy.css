@@ -1,0 +1,27 @@
+.mw_wrapper {
+    background-color:white;
+    max-width:48em;
+    margin:auto;
+    padding: 0 2em;
+}
+
+#content {
+    overflow-x:auto;
+    line-height: 1.5;
+    display: none;
+}
+
+.mw_wrapper #content {
+    display:block;
+}
+
+.mainpage {height:auto;}
+#page_title {text-align:center; font-weight:bold; font-size:1.2em;}
+body {background-color: #404040;}
+.tocentry.folded + .tocsection {display:none;}
+.tocentry .control:before {content: "\229f"}
+.tocentry.folded .control:before {content: "\229e"}
+.tocentry .control {font-weight:normal; color:blue; display:inline-block; width:1em; margin-left:-1em; font-size:1.2em;}
+.tocentry .control:hover {font-weight:bold;;}
+.highlight a {text-decoration:none; color:black;}
+.highlight a:hover {text-decoration:underline; color:blue;}
