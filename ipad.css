@@ -25,4 +25,4 @@ body {background-color: #404040;}
 .vsttocentry-psl-withtab .control:hover {font-weight:bold;;}
 .vsttocentry-psl-withtab .control:before {content: "\229f"}
 .vsttocentry-psl-withtab.folded .control:before {content: "\229e"}
-.vsttoc {margin: 0 1em;}
+.vsttoc {margin: 0 3em;}
