@@ -141,7 +141,10 @@ function keypress_handler(ev) {
 	var l = $(".navtop a").attr("href");
 	if(l) {window.location = l;}
     }
-    return true;n
+    else if(ev.which == 119) {
+	var l = $("#content").toggleClass("wide");
+    }
+    return true;
 }
 
 function fold_toc_section() {

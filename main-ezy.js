@@ -27,6 +27,9 @@ function keypress_handler(ev) {
 	var l = $(".navtop a").attr("href");
 	if(l) {window.location = l;}
     }
+    else if(ev.which == 119) {
+	var l = $(".mw_wrapper").toggleClass("wide");
+    }
     return true;
 }
 

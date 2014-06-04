@@ -9,13 +9,19 @@ div.effectivity.hidden {display:none;}
 #page_title {text-align:center; font-weight:bold; font-size:1.2em;}
 .mainpage {height:auto;}
 #content {
-    max-width:50em;
+    max-width:45em;
     margin:auto;
     padding:0.5em 1.5em;
     background-color:white;
     overflow-x:auto;
     line-height: 1.5;
 }
+
+#content.wide{
+    max-width:90em;
+    width:90em;
+}	
+
 p {text-indent:1.5em;}
 div p:first-child {text-indent:0;}
 body {background-color: #404040;}

@@ -5,6 +5,11 @@
     padding: 0 2em;
 }
 
+.mw_wrapper.wide {
+    max-width:90em;
+    width:90em;
+}
+
 #content {
     overflow-x:auto;
     line-height: 1.5;
