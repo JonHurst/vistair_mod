@@ -36,6 +36,8 @@ function main() {
     //add link to contents page
     if(search) {manual = manual + "&" + search;}
     $(".navtop").append($("<a class='clink' href='../contents.html?" + manual + "'>Contents</a>"));
+    //scroll hash back into view - may have been messed around by re-ordering etc
+    scroll_to_hash();
 }
 
 
@@ -54,8 +56,6 @@ function airbus_main() {
     fix_title_airbus();
     //hide "Applicable to: ALL"
     $("div.vstidenttext").each(hide_if_all);
-    //scroll hash back into view - may have been messed around by re-ordering
-    scroll_to_hash();
 }
 
 
