@@ -34,6 +34,7 @@ function main() {
 	if(manual == airbus_manuals[c]) {airbus_main();}
     }
     //add link to contents page
+    if(search) {manual = manual + "&" + search;}
     $(".navtop").append($("<a class='clink' href='../contents.html?" + manual + "'>Contents</a>"));
 }
 
@@ -59,14 +60,24 @@ function airbus_main() {
 
 
 function contents_main() {
-    var manual = search;
+    var search_fields = search.split("&");
+    var manual = search_fields[0];
+    if(search_fields.length == 2) {
+	$("input[name='msn']").val(search_fields[1]);
+    }
     master_toc(manual, function(t) {
 		   $("#toc").append(t);
 		   $("#toc li").each(fold_toc_section);
-		   $("#toc a").each(
-		       function() {
-			   var href = $(this).attr("href");
-			   $(this).attr("href", manual + "/" + href);
+		   $("#toc a").click(
+		       function(ev) {
+			   ev.preventDefault();
+			   document.location = manual + "/" + 
+			       $(this).attr("href") + "?" + $("input[name='msn']").val();
+		       });
+		   $("#all_link").click(
+		       function(ev) {
+			   ev.preventDefault();
+			   document.location = $(this).attr("href") + "?" + $("input[name='msn']").val();
 		       });
                });
 }
@@ -112,7 +123,15 @@ function fold_toc_section() {
 
 
 function index_main() {
-
+    if(search) {
+	$("a").each(
+	    function() {
+		var href = $(this).attr("href");
+		if(href.search("contents.html") != -1) {
+		    $(this).attr("href", href + "&" + search);
+		}
+	    });
+	}
 }
 
 
@@ -245,6 +264,7 @@ function keypress_handler(ev) {
 function scroll_to_hash() {
     if(hash) {
 	var hash_element = document.getElementById(hash);
+	if(! hash_element) {return;}
 	$(hash_element).addClass("show");
 	var effectivity_parent = $(hash_element).parents(".effectivity");
 	if(effectivity_parent.length) {
