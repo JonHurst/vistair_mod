@@ -7,12 +7,19 @@ body.airbus #content, .mw_wrapper {
     margin:auto;
     padding:0.5em 1.5em;
     background-color:white;
-    overflow-x:auto;
+    height: auto;
+    /* overflow-x:auto; */
 
 }
 
 body.airbus #content.wide, .mw_wrapper.wide{
     max-width:none;
+    width:auto;
+    overflow: visible;
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 body.ezy #content {
@@ -24,6 +31,10 @@ body.ezy .mw_wrapper #content {
     display:block;
 }
 
+body.airbus p {
+    padding-top:0.2em;
+    padding-bottom:0.2em;
+}
 
 .clink {float:right;}
 

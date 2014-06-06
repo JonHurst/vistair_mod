@@ -255,6 +255,7 @@ function keypress_handler(ev) {
     }
     else if(ev.which == 119) {
 	var l = $("#content, .mw_wrapper").toggleClass("wide");
+	scroll_to_hash();
     }
     return true;
 }
