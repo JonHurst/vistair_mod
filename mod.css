@@ -1,5 +1,5 @@
 body {background-color: #404040; line-height: 1.5;}
-#page_title {text-align:center; font-weight:bold; font-size:1.2em;}
+#page_title, body.index h1, body.contents h1 {text-align:center; font-weight:bold; font-size:1.2em;}
 .mainpage {height:auto;}
 
 body.airbus #content, .mw_wrapper {
@@ -35,3 +35,15 @@ div.effectivity.hidden {display:none;}
 
 .vstsideheadindicator {display:none;}
 .vstsideheadindicator.show {display:inline; background-color:#FFFF00; border:2px black solid;}
+
+body.contents #toc li .control:before {content: "\229f"}
+body.contents #toc li.folded .control:before {content: "\229e"}
+body.contents #toc li.folded ul {display:none;}
+body.contents .control {font-weight:normal; color:blue; display:inline-block; width:1em; margin-left:-1em; font-size:1.2em; cursor:pointer;}
+body.contents .control:hover {font-weight:bold;;}
+body.contents ul {list-style-type:none;}
+body.contents #toc {
+    padding: 1em 4em 2em;
+}
+
+body.index dl {padding: 1em 4em 2em 4em;}

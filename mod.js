@@ -44,8 +44,62 @@ function airbus_main() {
 
 
 function contents_main() {
-    
+    var manual = window.location.search;
+    if(window.location.protocol == "file:") {
+	var query_pos = window.location.href.search(/\?/);
+	if(query_pos != -1) {
+	    manual = window.location.href.substring(query_pos + 1);
+	}
+    }
+    master_toc(manual, function(t) {
+		   $("#toc").append(t);
+		   $("#toc li").each(fold_toc_section);
+		   $("#toc a").each(
+		       function() {
+			   var href = $(this).attr("href");
+			   $(this).attr("href", manual + "/" + href);
+		       });
+               });
 }
+
+
+function master_toc(manual, callback_func) {
+    jQuery.getJSON(
+	manual + "/" + manual + "_toc.json",
+	function(m) {
+	    var toc = $("<ul id='master_toc'></ul>");
+    	    for(var c = 0; c < m.children.length; c++) {
+    		toc.append(recursive_process_master_toc(m.children[c]));
+		$("h1").text(m.title);
+		document.title = m.title;
+    	    }
+	    callback_func(toc);
+	});
+}
+
+
+function recursive_process_master_toc(node) {
+    var item = $("<li><a href='" + node.filename + "#" + node.anchor + "'>" + node.title + "</a></li>");
+    if(node.children) {
+    	var child_item = $("<ul></ul>");
+    	for(var c = 0; c < node.children.length; c++) {
+    	    child_item.append(recursive_process_master_toc(node.children[c]));
+    	}
+	item.append(child_item);
+    }
+    return item;
+}
+
+
+function fold_toc_section() {
+    var section = $(this);
+    section.addClass("folded");
+    if(section.children("ul").length) {
+	var control = $("<span class='control'></span>");
+	section.prepend(control);
+	control.click(function() {section.toggleClass("folded");});
+    }
+}    
 
 
 function index_main() {
