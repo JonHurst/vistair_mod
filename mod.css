@@ -27,10 +27,10 @@ body.ezy .mw_wrapper #content {
 
 .clink {float:right;}
 
-div.effectivity_toggle {margin: 2px; padding: 0 0.5em 0.25em; text-align:right; font-size:0.8em;}
-div.effectivity_toggle.hiding {text-align: left; border: 2px outset green; padding-top: 0.25em; background-color:#D0D0D0;display:inline-block;}
+div.effectivity_toggle {margin: 2px; padding: 0 0.5em 0.15em; text-align:right; font-size:0.8em;}
+div.effectivity_toggle.hiding {text-align: left; border: 2px outset green; padding-top: 0.15em; background-color:#F0FFF0;display:inline-block;}
 div.effectivity_toggle a.show {display:none;}
-div.effectivity_toggle.hiding a.show {display:inline;}
+div.effectivity_toggle.hiding a.show {display:inline;  color:green;}
 div.effectivity_toggle.hiding a.hide {display:none;}
 div.effectivity.not_effective {margin:0 -0.5em; padding:0 0.5em; border: 3px solid green;}
 div.effectivity.hidden {display:none;}
