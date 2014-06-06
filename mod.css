@@ -46,4 +46,8 @@ body.contents #toc {
     padding: 1em 4em 2em;
 }
 
-body.index dl {padding: 1em 4em 2em 4em;}
+body.index .mw_wrapper div {border: black 2px solid; padding:1em; margin: 1em; border-radius: 1em; background-color: white;}
+body.index .mw_wrapper {background-color: #404040;}
+body.index .mw_wrapper table {width:80%; margin:auto; text-align: center;}
+body.index #ntc td {width:25%;}
+
