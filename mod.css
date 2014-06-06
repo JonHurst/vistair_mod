@@ -25,6 +25,8 @@ body.ezy .mw_wrapper #content {
 }
 
 
+.clink {float:right;}
+
 div.effectivity_toggle {margin: 2px; padding: 0 0.5em 0.5em; text-align:right;}
 div.effectivity_toggle.hiding {text-align: left; border: 3px solid green; padding-top: 0.5em; background-color:#D0D0D0;}
 div.effectivity_toggle a.show {display:none;}

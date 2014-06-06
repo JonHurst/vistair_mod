@@ -1,7 +1,16 @@
 $(main);
 
+var search = window.location.search;
+var hash = window.location.hash;
 
 function main() {
+    //handle search and hash extraction for file: protocol
+    if(window.location.protocol == "file:") {
+	search = window.location.href.match(/\?.+/);
+	if(search) {search = search[0].substr(1);}
+	hash = window.location.href.match(/#[^\?]+/);
+	if(hash) {hash = hash[0].substr(1);}
+    }
     if($("body.contents").length) {return contents_main();}
     if($("body.index").length) {return index_main();}
     //disable ipad.css
@@ -11,15 +20,17 @@ function main() {
     //add keyhandling
     $(document).keypress(keypress_handler);
     //do manual specific processing
-    var href = window.location.href;
-    var ezy_manuals = [/EZY-ALL-A/, /EZY-A3XX-B/, /EZY-ALL-C/, /EZY-ALL-CSPM/, /EZY-ALL-ABS/];
+    var manual = window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1);
+    var ezy_manuals = ["EZY-ALL-A", "EZY-A3XX-B", "EZY-ALL-C", "EZY-ALL-CSPM", "EZY-ALL-ABS"];
     for(var c = 0; c < ezy_manuals.length; c++) {
-	if(href.search(ezy_manuals[c]) != -1) {return ezy_main();}
+	if(manual == ezy_manuals[c]) {ezy_main();}
     }
-    var airbus_manuals = [/EZY-A3N-FCOM/, /EZY-A3N-MEL/, /EZY-A3N-FCTM/, /EZY-A3N-QRH/];
+    var airbus_manuals = ["EZY-A3N-FCOM", "EZY-A3N-MEL", "EZY-A3N-FCTM", "EZY-A3N-QRH"];
     for(var c = 0; c < airbus_manuals.length; c++) {
-	if(href.search(airbus_manuals[c]) != -1) {return airbus_main();}
+	if(manual == airbus_manuals[c]) {airbus_main();}
     }
+    //add link to contents page
+    $(".navtop").append($("<a class='clink' href='../contents.html?" + manual + "'>Contents</a>"));
 }
 
 
@@ -44,13 +55,7 @@ function airbus_main() {
 
 
 function contents_main() {
-    var manual = window.location.search;
-    if(window.location.protocol == "file:") {
-	var query_pos = window.location.href.search(/\?/);
-	if(query_pos != -1) {
-	    manual = window.location.href.substring(query_pos + 1);
-	}
-    }
+    var manual = search;
     master_toc(manual, function(t) {
 		   $("#toc").append(t);
 		   $("#toc li").each(fold_toc_section);
@@ -144,30 +149,18 @@ function fix_title_ezy() {
 
 
 function rejig_effectivity() {
-    var msn = "2037";
-    var query_pos = window.location.href.search(/\?/);
-    if(query_pos != -1) {
-	var query = window.location.href.substring(query_pos + 1);
-	var pairs = query.split("&");
-	for(var c = 0; c < pairs.length; c++) {
-	    if(pairs[c].substring(0, 4) != "msn=") {
-		continue;
+    var msn = search || "2037";
+    //update all links with msn
+    $("a").each(
+	function() {
+	    var href = $(this).attr("href");
+	    if(! href) {return;}
+	    var search_pos = href.search(/\?/);
+	    if(search_pos !== -1) {
+		href = href.substr(0, search_pos);
 	    }
-	    msn = pairs[c].substring(4);
-	    $("a").each(
-		function() {
-		    var href = $(this).attr("href");
-		    if(! href) {return;}
-		    if(href.search(/\?/) == -1) {
-			$(this).attr("href", href + "?msn=" + msn);
-		    }
-		    else {
-			$(this).attr("href", href + "&msn=" + msn);
-		}
-	    });
-	    break;
-	}
-    }
+	    $(this).attr("href", href + "?" + msn);
+	});
     var section_groups = {};
     $("div.effectivity").each(
 	function() {
@@ -246,11 +239,8 @@ function keypress_handler(ev) {
 
 
 function scroll_to_hash() {
-    var hash_pos = window.location.href.search(/\#/);
-    if(hash_pos != -1) {
-	var hash = window.location.href.substring(hash_pos + 1).split("?")[0];
+    if(hash) {
 	var hash_element = document.getElementById(hash);
-	console.log(hash_element);
 	$(hash_element).addClass("show");
 	var effectivity_parent = $(hash_element).parents(".effectivity");
 	if(effectivity_parent.length) {
