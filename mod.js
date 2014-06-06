@@ -1,7 +1,7 @@
 $(main);
 
-var search = window.location.search;
-var hash = window.location.hash;
+var search;
+var hash;
 
 function main() {
     //handle search and hash extraction for file: protocol
@@ -10,6 +10,10 @@ function main() {
 	if(search) {search = search[0].substr(1);}
 	hash = window.location.href.match(/#[^\?]+/);
 	if(hash) {hash = hash[0].substr(1);}
+    }
+    else {
+	search = window.location.search && window.location.search.substr(1);
+	hash = window.location.hash && window.location.hash.substr(1);
     }
     if($("body.contents").length) {return contents_main();}
     if($("body.index").length) {return index_main();}
