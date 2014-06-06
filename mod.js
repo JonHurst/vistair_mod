@@ -71,8 +71,10 @@ function contents_main() {
 		   $("#toc a").click(
 		       function(ev) {
 			   ev.preventDefault();
-			   document.location = manual + "/" + 
+			   var href = manual + "/" + 
 			       $(this).attr("href") + "?" + $("input[name='msn']").val();
+			   if(search_fields.length > 1) {document.location = href;}
+			   else window.open(href);
 		       });
 		   $("#all_link").click(
 		       function(ev) {
