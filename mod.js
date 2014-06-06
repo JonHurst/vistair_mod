@@ -56,6 +56,7 @@ function airbus_main() {
     fix_title_airbus();
     //hide "Applicable to: ALL"
     $("div.vstidenttext").each(hide_if_all);
+    $("#content").addClass("show");
 }
 
 
