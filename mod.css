@@ -53,3 +53,5 @@ body.index .mw_wrapper {background-color: #404040;}
 body.index .mw_wrapper table {width:80%; margin:auto; text-align: center;}
 body.index #ntc td {width:25%;}
 
+body.contents #msn {text-align:right;}
+body.contents #msn input {width:4em; color:green; font-weight: bold;}
