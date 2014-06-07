@@ -152,14 +152,20 @@ function fix_popup_image() {
 
 function fix_title_airbus() {
     var last_plp = $(".product").find(".psl:last");
-    var sub_title = $("<div id='subtitle'> </div>");
-    var msn = search || default_msn;
     var title = last_plp.children("a").attr("name");
     if(title == "PLP-TOC") title = document.title;
     document.title = title;
     $("#pageheader").prepend("<div id='page_title'>" + title + "</div>");
+    build_subtitle();
+}
+
+
+function build_subtitle() {
+    var thisfile = window.location.href.match(/\/[^\/]+\.html/)[0].substr(1);
+    var sub_title = $("<div id='subtitle'> </div>");
+    var msn = search || default_msn;
     function recursive_find_section(n) {
-	if(n.title.search(RegExp(title)) != -1) {
+	if(n.filename && n.filename == thisfile) {
 	    sub_title.prepend($("<br/><span>" + n.title + "</span>"));
 	    return true;
 	}
@@ -182,21 +188,18 @@ function fix_title_airbus() {
 	    recursive_find_section(m);
 	    if(sub_title.find("span").length)
 		$("#page_title").replaceWith(sub_title);
-	});
+	});    
 }
-
 
 
 function fix_title_ezy() {
     var title = $(".title:first").text();
-    if(title) {
+    if(title)
 	document.title = title;
-    }
-    else {
+    else
 	title = document.title;
-    }
     $("#pageheader").prepend("<div id='page_title'>" + title + "</div>");
-   
+    build_subtitle();
 }
 
 
