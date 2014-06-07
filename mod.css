@@ -1,7 +1,7 @@
 body {background-color: #404040; line-height: 1.5;}
 #pageheader {padding-top: 0.25em;}
-#page_title, body.index h1, body.contents h1 {text-align:center; font-weight:bold; min-height:4em;}
-#subtitle {text-align:center; min-height:4em;}
+#page_title, body.index h1, body.contents h1 {text-align:center; font-weight:bold;}
+#page_title, #subtitle {text-align:center; min-height:4em;}
 #subtitle a {white-space: nowrap;}
 #subtitle span {font-weight:bold;}
 .mainpage {height:auto;}
