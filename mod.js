@@ -153,29 +153,29 @@ function fix_popup_image() {
 function fix_title_airbus() {
     var last_plp = $(".product").find(".psl:last");
     var title = last_plp.children("a").attr("name");
-    if(title == "PLP-TOC") title = document.title;
-    document.title = title;
-    $("#pageheader").prepend("<div id='page_title'>" + title + "</div>");
-    build_subtitle();
+    if(title) document.title = title;
+    insert_long_title();
 }
 
 
-function build_subtitle() {
+function insert_long_title() {
     var thisfile = window.location.href.match(/\/[^\/]+\.html/)[0].substr(1);
-    var sub_title = $("<div id='subtitle'> </div>");
+    var long_title = $("<div id='long_title'> </div>");
     var msn = search || default_msn;
     function recursive_find_section(n) {
 	if(n.filename && n.filename == thisfile) {
-	    sub_title.prepend($("<br/><span>" + n.title + "</span>"));
+	    long_title.prepend($("<br/><span>" + n.title + "</span>"));
 	    return true;
 	}
 	if(! n.children) {return false;}
 	for(var c = 0; c < n.children.length; c++) {
 	    if(recursive_find_section(n.children[c])) {
 		if(n.filename) {
-		    var sub_title_link = $("<a>" + n.title + "</a><span> » </span>");
-		    sub_title_link.attr("href", n.filename + "?" + msn);
-		    sub_title.prepend(sub_title_link);
+		    var fn = n.filename;
+		    if(n.anchor) fn += "#" + n.anchor;
+		    var title_link = $("<a>" + n.title + "</a><span> » </span>");
+		    title_link.attr("href", fn + "?" + msn);
+		    long_title.prepend(title_link);
 		}
 		return true;
 	    }
@@ -186,8 +186,7 @@ function build_subtitle() {
 	window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1) + "_toc.json",
 	function(m) {  
 	    recursive_find_section(m);
-	    if(sub_title.find("span").length)
-		$("#page_title").replaceWith(sub_title);
+	    $("#pageheader").prepend(long_title);
 	});    
 }
 
@@ -196,10 +195,7 @@ function fix_title_ezy() {
     var title = $(".title:first").text();
     if(title)
 	document.title = title;
-    else
-	title = document.title;
-    $("#pageheader").prepend("<div id='page_title'>" + title + "</div>");
-    build_subtitle();
+    insert_long_title();
 }
 
 

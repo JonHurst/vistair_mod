@@ -1,9 +1,9 @@
 body {background-color: #404040; line-height: 1.5;}
 #pageheader {padding-top: 0.25em;}
 #page_title, body.index h1, body.contents h1 {text-align:center; font-weight:bold;}
-#page_title, #subtitle {text-align:center; min-height:4em;}
-#subtitle a {white-space: nowrap;}
-#subtitle span {font-weight:bold;}
+#long_title {text-align:center; min-height:4em;}
+#long_title a {white-space: nowrap;}
+#long_title span {font-weight:bold;}
 .mainpage {height:auto;}
 
 body.airbus #content, .mw_wrapper {
