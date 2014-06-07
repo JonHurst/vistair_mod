@@ -15,29 +15,31 @@ function main() {
 	search = window.location.search && window.location.search.substr(1);
 	hash = window.location.hash && window.location.hash.substr(1);
     }
-    if($("body.contents").length) {return contents_main();}
-    if($("body.index").length) {return index_main();}
-    //disable ipad.css
-    $("link[href='common/ipad.css']")[0].disabled=true;
-    //fix "popup" protocol
-    $("img").each(fix_popup_image);
-    //add keyhandling
-    $(document).keypress(keypress_handler);
-    //do manual specific processing
-    var manual = window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1);
-    var ezy_manuals = ["EZY-ALL-A", "EZY-A3XX-B", "EZY-ALL-C", "EZY-ALL-CSPM", "EZY-ALL-ABS"];
-    for(var c = 0; c < ezy_manuals.length; c++) {
-	if(manual == ezy_manuals[c]) {ezy_main();}
+    if($("body.contents").length) {contents_main();}
+    else if($("body.index").length) {index_main();}
+    else {
+	//disable ipad.css
+	$("link[href='common/ipad.css']")[0].disabled=true;
+	//fix "popup" protocol
+	$("img").each(fix_popup_image);
+	//add keyhandling
+	$(document).keypress(keypress_handler);
+	//do manual specific processing
+	var manual = window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1);
+	var ezy_manuals = ["EZY-ALL-A", "EZY-A3XX-B", "EZY-ALL-C", "EZY-ALL-CSPM", "EZY-ALL-ABS"];
+	for(var c = 0; c < ezy_manuals.length; c++) {
+	    if(manual == ezy_manuals[c]) {ezy_main();}
+	}
+	var airbus_manuals = ["EZY-A3N-FCOM", "EZY-A3N-MEL", "EZY-A3N-FCTM", "EZY-A3N-QRH"];
+	for(var c = 0; c < airbus_manuals.length; c++) {
+	    if(manual == airbus_manuals[c]) {airbus_main();}
+	}
+	//add link to contents page
+	if(search) {manual = manual + "&" + search;}
+	$(".navtop").append($("<a class='clink' href='../contents.html?" + manual + "'>Contents</a>"));
+	//scroll hash back into view - may have been messed around by re-ordering etc
+	scroll_to_hash();
     }
-    var airbus_manuals = ["EZY-A3N-FCOM", "EZY-A3N-MEL", "EZY-A3N-FCTM", "EZY-A3N-QRH"];
-    for(var c = 0; c < airbus_manuals.length; c++) {
-	if(manual == airbus_manuals[c]) {airbus_main();}
-    }
-    //add link to contents page
-    if(search) {manual = manual + "&" + search;}
-    $(".navtop").append($("<a class='clink' href='../contents.html?" + manual + "'>Contents</a>"));
-    //scroll hash back into view - may have been messed around by re-ordering etc
-    scroll_to_hash();
 }
 
 
@@ -209,10 +211,10 @@ function rejig_effectivity() {
 	    }
 	    section_groups[group_ident][ident] = $(this);
 	});
-    for(i in section_groups) {
+    for(var i in section_groups) {
 	var effective=undefined;
 	var not_effective = [];
-	for(j in section_groups[i]) {
+	for(var j in section_groups[i]) {
 	    var effectivity = section_groups[i][j].attr("id");
 	    if(effectivity.search(RegExp("-" + msn + "-")) != -1) {
 		section_groups[i][j].addClass("effective");
