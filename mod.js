@@ -150,6 +150,18 @@ function fix_popup_image() {
 function fix_title_airbus() {
     var last_plp = $(".product").find(".psl:last");
     var title = last_plp.children("a").attr("name");
+    var containing_bookmarks = last_plp.prevAll(".bookmark_title");
+    if(containing_bookmarks.length) {
+    	var title_regexp = RegExp(title.match(/^[A-Z\-]+/)[0] + "[0-9\- ]+");
+	var bookmark_text = "";
+	for(var c = containing_bookmarks.length - 1; c >= 0; c--) {
+	    bookmark_text += "." + $(containing_bookmarks[c]).text().replace(title_regexp, "");
+	}
+    	title += " — " + bookmark_text.substr(1);
+    }
+    else {
+	title += " (cont)";
+    }
     if(title == "PLP-TOC") {
 	title = document.title;
     }
