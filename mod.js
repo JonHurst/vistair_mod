@@ -2,6 +2,7 @@ $(main);
 
 var search;
 var hash;
+var default_msn = "2037";
 
 function main() {
     //handle search and hash extraction for file: protocol
@@ -151,28 +152,39 @@ function fix_popup_image() {
 
 function fix_title_airbus() {
     var last_plp = $(".product").find(".psl:last");
+    var sub_title = $("<div id='subtitle'> </div>");
+    var msn = search || default_msn;
     var title = last_plp.children("a").attr("name");
-    var containing_bookmarks = last_plp.prevAll(".bookmark_title");
-    if(containing_bookmarks.length) {
-    	var title_regexp = RegExp(title.match(/^[A-Z\-]+/)[0] + "[0-9\- ]+");
-	var bookmark_text = "";
-	for(var c = containing_bookmarks.length - 1; c >= 0; c--) {
-	    bookmark_text += "." + $(containing_bookmarks[c]).text().replace(title_regexp, "");
-	}
-    	title += " — " + bookmark_text.substr(1);
-    }
-    else {
-	title += " (cont)";
-    }
-    if(title == "PLP-TOC") {
-	title = document.title;
-    }
-    else {
-	document.title = title;
-    }
+    if(title == "PLP-TOC") title = document.title;
+    document.title = title;
     $("#pageheader").prepend("<div id='page_title'>" + title + "</div>");
-   
+    function recursive_find_section(n) {
+	if(n.title.search(RegExp(title)) != -1) {
+	    sub_title.prepend($("<br/><span>" + n.title + "</span>"));
+	    return true;
+	}
+	if(! n.children) {return false;}
+	for(var c = 0; c < n.children.length; c++) {
+	    if(recursive_find_section(n.children[c])) {
+		if(n.filename) {
+		    var sub_title_link = $("<a>" + n.title + "</a><span> » </span>");
+		    sub_title_link.attr("href", n.filename + "?" + msn);
+		    sub_title.prepend(sub_title_link);
+		}
+		return true;
+	    }
+	}
+	return false;
+    }
+    jQuery.getJSON(
+	window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1) + "_toc.json",
+	function(m) {  
+	    recursive_find_section(m);
+	    if(sub_title.find("span").length)
+		$("#page_title").replaceWith(sub_title);
+	});
 }
+
 
 
 function fix_title_ezy() {
@@ -189,7 +201,7 @@ function fix_title_ezy() {
 
 
 function rejig_effectivity() {
-    var msn = search || "2037";
+    var msn = search || default_msn;
     //update all links with msn
     $("a").each(
 	function() {
