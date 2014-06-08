@@ -1,8 +1,26 @@
+var default_msn = "2037";
+var ezy_manuals = ["EZY-ALL-A", "EZY-A3XX-B", "EZY-ALL-C", "EZY-ALL-CSPM", "EZY-ALL-ABS"];
+var airbus_manuals = ["EZY-A3N-FCOM", "EZY-A3N-MEL", "EZY-A3N-FCTM", "EZY-A3N-QRH"];
+
+function ezy_manualp(manual) {
+    for(var c = 0; c < ezy_manuals.length; c++) {
+	if(manual == ezy_manuals[c]) return true;
+	}
+    return false;
+}
+
+function airbus_manualp(manual) {
+    for(var c = 0; c < airbus_manuals.length; c++) {
+	if(manual == airbus_manuals[c]) return true;
+	}
+    return false;
+}
+
+
 $(main);
 
 var search = "";
 var hash = "";
-var default_msn = "2037";
 
 function main() {
     //search and hash extraction
@@ -21,16 +39,9 @@ function main() {
 	$(document).keypress(keypress_handler);
 	//do manual specific processing
 	var manual = window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1);
-	var ezy_manuals = ["EZY-ALL-A", "EZY-A3XX-B", "EZY-ALL-C", "EZY-ALL-CSPM", "EZY-ALL-ABS"];
-	for(var c = 0; c < ezy_manuals.length; c++) {
-	    if(manual == ezy_manuals[c]) {ezy_main();}
-	}
-	var airbus_manuals = ["EZY-A3N-FCOM", "EZY-A3N-MEL", "EZY-A3N-FCTM", "EZY-A3N-QRH"];
-	for(var c = 0; c < airbus_manuals.length; c++) {
-	    if(manual == airbus_manuals[c]) {airbus_main();}
-	}
+	if(ezy_manualp(manual)) ezy_main();
+	else if(airbus_manualp(manual)) airbus_main();
 	//add link to contents page
-	if(search) {manual = manual + "&" + search;}
 	$(".navtop").append($("<a class='clink' href='../contents.html?" + manual + "'>Contents</a>"));
 	//scroll hash back into view - may have been messed around by re-ordering etc
 	scroll_to_hash();
@@ -58,11 +69,8 @@ function airbus_main() {
 
 
 function contents_main() {
-    var search_fields = search.split("&");
-    var manual = search_fields[0];
-    if(search_fields.length == 2) {
-	$("input[name='msn']").val(search_fields[1]);
-    }
+    var manual = search;
+    if(!airbus_manualp(manual)) $("#msn").remove();
     master_toc(manual, function(t) {
 		   $("#loading").remove();
 		   $("#toc").append(t);
@@ -70,21 +78,28 @@ function contents_main() {
 		   $("#toc a").click(
 		       function(ev) {
 			   ev.preventDefault();
-			   var href = manual + "/" +
-			       $(this).attr("href") + "?" + $("input[name='msn']").val();
-			   if(search_fields.length > 1) {document.location = href;}
-			   else window.open(href);
-		       });
-		   $("#all_link").click(
-		       function(ev) {
-			   ev.preventDefault();
-			   document.location = $(this).attr("href") + "?" + $("input[name='msn']").val();
+			   var href = $(this).attr("href");
+			   if(airbus_manualp(manual)) href+= "?" + $("input[name='msn']").val();
+			   window.open(href);
 		       });
                });
 }
 
 
 function master_toc(manual, callback_func) {
+    function recursive_process_master_toc(node) {
+	var item = $("<li><a href='" + manual + "/" + 
+		     node.filename + "#" + node.anchor + 
+		     "'>" + node.title + "</a></li>");
+	if(node.children) {
+    	    var child_item = $("<ul></ul>");
+    	    for(var c = 0; c < node.children.length; c++) {
+    		child_item.append(recursive_process_master_toc(node.children[c]));
+    	    }
+	    item.append(child_item);
+	}
+	return item;
+    }
     jQuery.getJSON(
 	manual + "/" + manual + "_toc.json",
 	function(m) {
@@ -96,19 +111,6 @@ function master_toc(manual, callback_func) {
     	    }
 	    callback_func(toc);
 	});
-}
-
-
-function recursive_process_master_toc(node) {
-    var item = $("<li><a href='" + node.filename + "#" + node.anchor + "'>" + node.title + "</a></li>");
-    if(node.children) {
-    	var child_item = $("<ul></ul>");
-    	for(var c = 0; c < node.children.length; c++) {
-    	    child_item.append(recursive_process_master_toc(node.children[c]));
-    	}
-	item.append(child_item);
-    }
-    return item;
 }
 
 
@@ -124,15 +126,6 @@ function fold_toc_section() {
 
 
 function index_main() {
-    if(search) {
-	$("a").each(
-	    function() {
-		var href = $(this).attr("href");
-		if(href.search("contents.html") != -1) {
-		    $(this).attr("href", href + "&" + search);
-		}
-	    });
-	}
 }
 
 
