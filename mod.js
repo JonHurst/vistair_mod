@@ -1,21 +1,15 @@
 $(main);
 
-var search;
-var hash;
+var search = "";
+var hash = "";
 var default_msn = "2037";
 
 function main() {
-    //handle search and hash extraction for file: protocol
-    if(window.location.protocol == "file:") {
-	search = window.location.href.match(/\?.+/);
-	if(search) {search = search[0].substr(1);}
-	hash = window.location.href.match(/#[^\?]+/);
-	if(hash) {hash = hash[0].substr(1);}
-    }
-    else {
-	search = window.location.search && window.location.search.substr(1);
-	hash = window.location.hash && window.location.hash.substr(1);
-    }
+    //search and hash extraction
+    search = window.location.href.match(/\?.+/);
+    if(search) {search = search[0].substr(1);}
+    hash = window.location.href.match(/#[^\?]+/);
+    if(hash) {hash = hash[0].substr(1);}
     if($("body.contents").length) {contents_main();}
     else if($("body.index").length) {index_main();}
     else {
@@ -75,7 +69,7 @@ function contents_main() {
 		   $("#toc a").click(
 		       function(ev) {
 			   ev.preventDefault();
-			   var href = manual + "/" + 
+			   var href = manual + "/" +
 			       $(this).attr("href") + "?" + $("input[name='msn']").val();
 			   if(search_fields.length > 1) {document.location = href;}
 			   else window.open(href);
