@@ -64,6 +64,7 @@ function contents_main() {
 	$("input[name='msn']").val(search_fields[1]);
     }
     master_toc(manual, function(t) {
+		   $("#loading").remove();
 		   $("#toc").append(t);
 		   $("#toc li").each(fold_toc_section);
 		   $("#toc a").click(
