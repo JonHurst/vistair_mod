@@ -115,11 +115,11 @@ function fold_toc_section() {
     var section = $(this);
     section.addClass("folded");
     if(section.children("ul").length) {
-	var control = $("<span class='control'></span>");
+	var control = $("<div class='control'></div>");
 	section.prepend(control);
 	control.click(function() {section.toggleClass("folded");});
     }
-}    
+}
 
 
 function index_main() {
@@ -178,10 +178,10 @@ function insert_long_title() {
     }
     jQuery.getJSON(
 	window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1) + "_toc.json",
-	function(m) {  
+	function(m) {
 	    recursive_find_section(m);
 	    $("#pageheader").prepend(long_title);
-	});    
+	});
 }
 
 
@@ -240,7 +240,7 @@ function rejig_effectivity() {
 	    not_effective[c].remove();
 	    not_effective[c].insertAfter(effective);
 	    $("<div class='effectivity_toggle hiding'>"
-	      + "<a class='show' href='#'>Show alternative (" + 
+	      + "<a class='show' href='#'>Show alternative (" +
 	      not_effective[c].find(".dusol").attr("id").match(/\.[0-9]+/)[0].substr(1)
 	      + ")</a><a class='hide' href='#'>Hide</a>"
 	      + "</div>").insertAfter(not_effective[c]);
@@ -294,6 +294,6 @@ function scroll_to_hash() {
 	    effectivity_parent.removeClass("hidden");
 	    effectivity_parent.next().removeClass("hiding");
 	}
-	hash_element.scrollIntoView(); 
+	hash_element.scrollIntoView();
     }
 }
