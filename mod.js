@@ -68,9 +68,40 @@ function airbus_main() {
 }
 
 
+function msn_cookie() {
+    var msn = false;
+    var cookies = document.cookie;
+    if(cookies) {
+	var cookie_list = cookies.split("; ");
+	for(var c = 0; c < cookie_list.length; c++) {
+	    if(cookie_list[c].substr(0, 4) == "msn=") {
+		msn = cookie_list[c].substr(4);
+		break;
+	    }
+	}
+    }
+    return msn;
+}
+
+
 function contents_main() {
     var manual = search;
-    if(!airbus_manualp(manual)) $("#msn").remove();
+    var curr_msn = msn_cookie() || default_msn;
+    if(airbus_manualp(manual)) {
+	$("<span id='msn_field'>" +curr_msn + " </span>").insertBefore("#change_msn");
+	$("#change_msn").click(
+	    function(ev) {
+		ev.preventDefault();
+		var newmsn = prompt("New MSN");
+		if(newmsn) {
+		    curr_msn = newmsn;
+		    document.cookie = "msn=" + newmsn + "; max-age = 86400";
+		    $("#msn_field").text(newmsn + " ");
+		}
+	    });
+    }
+    else 
+	$("#msn").remove();
     master_toc(manual, function(t) {
 		   $("#loading").remove();
 		   $("#toc").append(t);
@@ -79,7 +110,7 @@ function contents_main() {
 		       function(ev) {
 			   ev.preventDefault();
 			   var href = $(this).attr("href");
-			   if(airbus_manualp(manual)) href+= "?" + $("input[name='msn']").val();
+			   if(airbus_manualp(manual)) href+= "?" + curr_msn;
 			   window.open(href);
 		       });
                });
@@ -188,7 +219,7 @@ function fix_title_ezy() {
 
 
 function rejig_effectivity() {
-    var msn = search || default_msn;
+    var msn = msn_cookie() || search || default_msn;
     //update all links with msn
     $("a").each(
 	function() {
