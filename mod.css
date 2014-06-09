@@ -78,6 +78,7 @@ body.index .mw_wrapper div {border: black 2px solid; padding:1em; margin: 1em; b
 body.index .mw_wrapper {background-color: #404040;}
 body.index .mw_wrapper table {width:80%; margin:auto; text-align: center;}
 body.index #ntc td {width:25%;}
+body.index #search_link {text-align:right; margin-top:0.5em;}
 
 body.contents #msn {text-align:right;}
 body.contents #msn input {width:4em; color:green; font-weight: bold;}
