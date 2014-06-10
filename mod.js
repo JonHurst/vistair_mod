@@ -91,13 +91,7 @@ function contents_main() {
     master_toc(manual, function(t) {
 		   $("#loading").remove();
 		   $("#toc").append(t);
-		   $("#toc li").each(fold_toc_section);
-		   $("#toc a").click(
-		       function(ev) {
-			   ev.preventDefault();
-			   window.open($(this).attr("href"));
-		       });
-               });
+		   $("#toc li").each(fold_toc_section);});
 }
 
 
