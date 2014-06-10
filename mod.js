@@ -39,9 +39,6 @@ function main() {
 	$(document).keypress(keypress_handler);
 	//get manual name
 	var manual = window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1);
-	//add link to contents page
-	$(".navtop").append($("<a class='clink' href='../contents.html?" + manual + "'>" + 
-			      document.title + " Contents</a>"));
 	//do manual specific processing
 	if(ezy_manualp(manual)) ezy_main();
 	else if(airbus_manualp(manual)) airbus_main();
@@ -160,14 +157,16 @@ function fix_popup_image() {
 
 
 function fix_title_airbus() {
+    insert_long_title();
     var last_plp = $(".product").find(".psl:last");
     var title = last_plp.children("a").attr("name");
-    if(title) document.title = title;
-    insert_long_title();
+   if(title) document.title = title;
 }
 
 
 function insert_long_title() {
+    var manual = window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1);
+    var manual_title = document.title;
     var thisfile = window.location.href.match(/\/[^\/]+\.html/)[0].substr(1);
     var long_title = $("<div id='long_title'> </div>");
     function recursive_find_section(n) {
@@ -181,9 +180,7 @@ function insert_long_title() {
 		if(n.filename) {
 		    var fn = n.filename;
 		    if(n.anchor) fn += "#" + n.anchor;
-		    var title_link = $("<a>" + n.title + "</a><span> » </span>");
-		    title_link.attr("href", fn);
-		    long_title.prepend(title_link);
+		    long_title.prepend($("<span class='nowrap'><a href='" + fn +  "'>" + n.title + "</a> »</span><span> </span>"));
 		}
 		return true;
 	    }
@@ -191,19 +188,24 @@ function insert_long_title() {
 	return false;
     }
     jQuery.getJSON(
-	window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1) + "_toc.json",
+	manual + "_toc.json",
 	function(m) {
 	    recursive_find_section(m);
+	    long_title.prepend(
+		$("<span><a href='../contents.html?" + manual +"'>" 
+		  + manual_title + "</a> » </span>"));
+	    long_title.prepend(
+		$("<span><a href='../index.html'>All</a> » </span>"));
 	    $("#pageheader").prepend(long_title);
 	});
 }
 
 
 function fix_title_ezy() {
+    insert_long_title();
     var title = $(".title:first").text();
     if(title)
-	document.title = title;
-    insert_long_title();
+    	document.title = title;
 }
 
 
