@@ -37,6 +37,8 @@ function main() {
 	$("img").each(fix_popup_image);
 	//add keyhandling
 	$(document).keypress(keypress_handler);
+	//fix titles
+	insert_titles();
 	//get manual name
 	var manual = window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1);
 	//do manual specific processing
@@ -52,15 +54,12 @@ function ezy_main() {
     $("body").addClass("ezy");
     //wrap #content to enable width control
     $("#content").wrap("<div class='mw_wrapper'></div>");
-    //fix titles
-    fix_title_ezy();
 }
 
 
 function airbus_main() {
     $("body").addClass("airbus");
     rejig_effectivity();
-    fix_title_airbus();
     //hide "Applicable to: ALL"
     $("div.vstidenttext").each(hide_if_all);
     $("#content").addClass("show");
@@ -156,15 +155,7 @@ function fix_popup_image() {
 }
 
 
-function fix_title_airbus() {
-    insert_long_title();
-    var last_plp = $(".product").find(".psl:last");
-    var title = last_plp.children("a").attr("name");
-   if(title) document.title = title;
-}
-
-
-function insert_long_title() {
+function insert_titles() {
     var manual = window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1);
     var manual_title = document.title;
     var thisfile = window.location.href.match(/\/[^\/]+\.html/)[0].substr(1);
@@ -172,6 +163,7 @@ function insert_long_title() {
     function recursive_find_section(n) {
 	if(n.filename && n.filename == thisfile) {
 	    long_title.prepend($("<br/><span>" + n.title + "</span>"));
+	    document.title = n.title;
 	    return true;
 	}
 	if(! n.children) {return false;}
@@ -198,14 +190,6 @@ function insert_long_title() {
 		$("<span><a href='../index.html'>All</a> » </span>"));
 	    $("#pageheader").prepend(long_title);
 	});
-}
-
-
-function fix_title_ezy() {
-    insert_long_title();
-    var title = $(".title:first").text();
-    if(title)
-    	document.title = title;
 }
 
 
