@@ -95,7 +95,7 @@ function contents_main() {
 		var newmsn = prompt("New MSN");
 		if(newmsn) {
 		    curr_msn = newmsn;
-		    document.cookie = "msn=" + newmsn + "; max-age = 86400";
+		    document.cookie = "msn=" + newmsn + "; max-age=86400";
 		    $("#msn_field").text(newmsn + " ");
 		}
 	    });
@@ -109,9 +109,7 @@ function contents_main() {
 		   $("#toc a").click(
 		       function(ev) {
 			   ev.preventDefault();
-			   var href = $(this).attr("href");
-			   if(airbus_manualp(manual)) href+= "?" + curr_msn;
-			   window.open(href);
+			   window.open($(this).attr("href"));
 		       });
                });
 }
@@ -180,7 +178,6 @@ function fix_title_airbus() {
 function insert_long_title() {
     var thisfile = window.location.href.match(/\/[^\/]+\.html/)[0].substr(1);
     var long_title = $("<div id='long_title'> </div>");
-    var msn = search || default_msn;
     function recursive_find_section(n) {
 	if(n.filename && n.filename == thisfile) {
 	    long_title.prepend($("<br/><span>" + n.title + "</span>"));
@@ -193,7 +190,7 @@ function insert_long_title() {
 		    var fn = n.filename;
 		    if(n.anchor) fn += "#" + n.anchor;
 		    var title_link = $("<a>" + n.title + "</a><span> » </span>");
-		    title_link.attr("href", fn + "?" + msn);
+		    title_link.attr("href", fn);
 		    long_title.prepend(title_link);
 		}
 		return true;
@@ -219,18 +216,7 @@ function fix_title_ezy() {
 
 
 function rejig_effectivity() {
-    var msn = msn_cookie() || search || default_msn;
-    //update all links with msn
-    $("a").each(
-	function() {
-	    var href = $(this).attr("href");
-	    if(! href) {return;}
-	    var search_pos = href.search(/\?/);
-	    if(search_pos !== -1) {
-		href = href.substr(0, search_pos);
-	    }
-	    $(this).attr("href", href + "?" + msn);
-	});
+    var msn = msn_cookie() || default_msn;
     var section_groups = {};
     $("div.effectivity").each(
 	function() {
