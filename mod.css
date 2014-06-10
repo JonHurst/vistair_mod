@@ -9,7 +9,7 @@ body {background-color: #404040; line-height: 1.5; font-family: arial, helvetica
 body.airbus #content, .mw_wrapper {
     max-width:45em;
     margin:auto;
-    padding:0.5em 1.5em;
+    padding:0.25em 1.5em;
     background-color:white;
     height: auto;
     /* overflow-x:auto; */
@@ -74,11 +74,13 @@ body.contents #toc {
 body.contents #toc li a{text-decoration:none;}
 body.contents #toc li a:hover{text-decoration:underline;}
 
-body.index .mw_wrapper div {border: black 2px solid; padding:1em; margin: 1em; border-radius: 1em; background-color: white;}
+body.index .mw_wrapper > div {border: black 2px solid; padding:1em; margin: 1em; border-radius: 1em; background-color: white;}
 body.index .mw_wrapper {background-color: #404040;}
 body.index .mw_wrapper table {width:80%; margin:auto; text-align: center;}
 body.index #ntc td {width:25%;}
-body.index #search_link {text-align:right; margin-top:0.5em;}
+body.index #search_link {float:right;}
+body.index #msn {display: inline-block;}
+body.index #top_bar {margin-top: 0;}
 
 body.contents #msn {text-align:right;}
 body.contents #msn input {width:4em; color:green; font-weight: bold;}

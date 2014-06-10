@@ -37,12 +37,14 @@ function main() {
 	$("img").each(fix_popup_image);
 	//add keyhandling
 	$(document).keypress(keypress_handler);
-	//do manual specific processing
+	//get manual name
 	var manual = window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1);
+	//add link to contents page
+	$(".navtop").append($("<a class='clink' href='../contents.html?" + manual + "'>" + 
+			      document.title + " Contents</a>"));
+	//do manual specific processing
 	if(ezy_manualp(manual)) ezy_main();
 	else if(airbus_manualp(manual)) airbus_main();
-	//add link to contents page
-	$(".navtop").append($("<a class='clink' href='../contents.html?" + manual + "'>Contents</a>"));
 	//scroll hash back into view - may have been messed around by re-ordering etc
 	scroll_to_hash();
     }
@@ -86,22 +88,6 @@ function msn_cookie() {
 
 function contents_main() {
     var manual = search;
-    var curr_msn = msn_cookie() || default_msn;
-    if(airbus_manualp(manual)) {
-	$("<span id='msn_field'>" +curr_msn + " </span>").insertBefore("#change_msn");
-	$("#change_msn").click(
-	    function(ev) {
-		ev.preventDefault();
-		var newmsn = prompt("New MSN");
-		if(newmsn) {
-		    curr_msn = newmsn;
-		    document.cookie = "msn=" + newmsn + "; max-age=86400";
-		    $("#msn_field").text(newmsn + " ");
-		}
-	    });
-    }
-    else 
-	$("#msn").remove();
     master_toc(manual, function(t) {
 		   $("#loading").remove();
 		   $("#toc").append(t);
@@ -155,6 +141,18 @@ function fold_toc_section() {
 
 
 function index_main() {
+    var curr_msn = msn_cookie() || default_msn;
+    $("<span id='msn_field'>" +curr_msn + " </span>").insertBefore("#change_msn");
+    $("#change_msn").click(
+	function(ev) {
+	    ev.preventDefault();
+	    var newmsn = prompt("New MSN");
+	    if(newmsn) {
+		curr_msn = newmsn;
+		document.cookie = "msn=" + newmsn + "; max-age=86400";
+		$("#msn_field").text(newmsn + " ");
+	    }
+	});
 }
 
 
