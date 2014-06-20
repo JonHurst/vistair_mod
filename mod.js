@@ -33,8 +33,6 @@ function main() {
     else {
 	//disable ipad.css
 	$("link[href='common/ipad.css']")[0].disabled=true;
-	//fix "popup" protocol
-	$("img").each(fix_popup_image);
 	//add keyhandling
 	$(document).keypress(keypress_handler);
 	//fix titles
@@ -44,6 +42,8 @@ function main() {
 	//do manual specific processing
 	if(ezy_manualp(manual)) ezy_main();
 	else if(airbus_manualp(manual)) airbus_main();
+	//fix "popup" protocol
+	$("img").each(fix_popup_image);
 	//scroll hash back into view - may have been messed around by re-ordering etc
 	scroll_to_hash();
     }
@@ -147,9 +147,12 @@ function index_main() {
 
 
 function fix_popup_image() {
-    $(this).click(
+    var containing_anchor = $(this).parents("a").first();
+    var newhref = containing_anchor.attr("href").replace(/popup:\/\//, "");
+    containing_anchor.attr("href", newhref);
+    containing_anchor.click(
 	function() {
-	    window.open($(this).parent().attr("href").replace(/popup:\/\//, ""));
+	    window.open($(this).attr("href"));
 	    return false;
 	});
 }
