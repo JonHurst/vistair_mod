@@ -1,5 +1,5 @@
 var default_msn = "2037";
-var ezy_manuals = ["EZY-ALL-A", "EZY-A3XX-B", "EZY-ALL-C", "EZY-ALL-CSPM", "EZY-ALL-ABS"];
+var ezy_manuals = ["EZY-ALL-A", "EZY-ALL-A-JUN14", "EZY-A3XX-B", "EZY-A3XX-B-JUN14", "EZY-ALL-C", "EZY-ALL-CSPM", "EZY-ALL-ABS"];
 var airbus_manuals = ["EZY-A3N-FCOM", "EZY-A3N-MEL", "EZY-A3N-FCTM", "EZY-A3N-QRH"];
 
 function ezy_manualp(manual) {
@@ -93,8 +93,8 @@ function contents_main() {
 
 function master_toc(manual, callback_func) {
     function recursive_process_master_toc(node) {
-	var item = $("<li><a href='" + manual + "/" + 
-		     node.filename + "#" + node.anchor + 
+	var item = $("<li><a href='" + manual + "/" +
+		     node.filename + "#" + node.anchor +
 		     "'>" + node.title + "</a></li>");
 	if(node.children) {
     	    var child_item = $("<ul></ul>");
@@ -187,7 +187,7 @@ function insert_titles() {
 	function(m) {
 	    recursive_find_section(m);
 	    long_title.prepend(
-		$("<span><a href='../contents.html?" + manual +"'>" 
+		$("<span><a href='../contents.html?" + manual +"'>"
 		  + manual_title + "</a> » </span>"));
 	    long_title.prepend(
 		$("<span><a href='../index.html'>All</a> » </span>"));
