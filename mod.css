@@ -60,8 +60,8 @@ div.effectivity.not_effective {margin:0 -0.5em; padding:0 0.5em; border: 3px sol
 div.effectivity.hidden {display:none;}
 div.nodu {border-top: solid black 2px;}
 
-.vstsideheadindicator {display:none;}
-.vstsideheadindicator.show {display:inline; background-color:#FFFF00; border:2px black solid;}
+#psl-psl-PLP-31.psl a.hide {display:inline;}
+.hide {display:none;}
 
 body.contents #toc li .control:before {content: "\25bc"}
 body.contents #toc li.folded .control:before {content: "\25ba"}

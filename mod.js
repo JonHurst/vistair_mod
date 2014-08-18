@@ -62,6 +62,19 @@ function airbus_main() {
     rejig_effectivity();
     //hide "Applicable to: ALL"
     $("div.vstidenttext").each(hide_if_all);
+    //New version includes L1, L2 and L3 as anchor and sometimes includes
+    //document text within anchor. Therefore remove L1, L2 and L3 if found
+    //at start of anchor text.
+    $("a").each(function() {
+                    var t = $(this).text();
+                    if(t.match(/^L[1-3]/))
+                        $(this).text(t.slice(2));
+                });
+    //Update anchors are now a.xref with hash as an elder sibling
+    $("a.xref").each(function() {
+		     if($(this).text().match(/^H\d{1,4}$/))
+			 $(this).addClass("hide");
+		     });
     $("#content").addClass("show");
 }
 
@@ -252,7 +265,7 @@ function rejig_effectivity() {
 
 
 function hide_if_all() {
-    if($(this).text() == "Applicable to: ALL") {
+    if($(this).text().search(/Applicable to: ALL/) != -1) {
 	$(this).css("display", "none");
     }
 }
@@ -260,11 +273,11 @@ function hide_if_all() {
 
 function keypress_handler(ev) {
     if(ev.which == 110) {
-	var l = $(".navbottom a").attr("href");
+        var l = $(".navbottom a:last").attr("href");
 	if(l) {window.location = l;}
     }
     else if(ev.which == 112) {
-	var l = $(".navtop a").attr("href");
+        var l = $(".navtop a:last").attr("href");
 	if(l) {window.location = l;}
     }
     else if(ev.which == 119) {
@@ -278,14 +291,18 @@ function keypress_handler(ev) {
 
 function scroll_to_hash() {
     if(hash) {
-	var hash_element = document.getElementById(hash);
+        //hash now sometimes refers to name attribute of an <a>
+        var hash_element = $("a[name='" + hash + "']").get(0);
+        if(! hash_element) {
+            hash_element = document.getElementById(hash);
+        }
 	if(! hash_element) {return;}
-	$(hash_element).addClass("show");
 	var effectivity_parent = $(hash_element).parents(".effectivity");
 	if(effectivity_parent.length) {
 	    effectivity_parent.removeClass("hidden");
 	    effectivity_parent.next().removeClass("hiding");
 	}
+	$(hash_element).parent("div,p").find("a.xref").removeClass("hide");
 	hash_element.scrollIntoView();
     }
 }
