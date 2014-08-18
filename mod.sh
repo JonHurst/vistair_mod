@@ -8,4 +8,5 @@ do
 	rm -f ${DIR}/common/ipad.js
     fi
     ln ipad.js  ${DIR}/common/
+    chmod -R a+rX ${DIR}
 done
