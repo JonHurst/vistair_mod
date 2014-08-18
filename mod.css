@@ -13,7 +13,7 @@ body.airbus #content, .mw_wrapper {
     padding:0.25em 1.5em;
     background-color:white;
     height: auto;
-    /* overflow-x:auto; */
+    overflow-x:auto;
 
 }
 
