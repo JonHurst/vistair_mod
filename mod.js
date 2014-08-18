@@ -307,7 +307,7 @@ function scroll_to_hash() {
             effectivity_parent.removeClass("hidden");
             effectivity_parent.next().removeClass("hiding");
         }
-	$(hash_element).parent("div,p").find("a.xref").removeClass("hide");
+	$(hash_element).parents("div:first").find("a.xref").removeClass("hide");
 	hash_element.scrollIntoView();
     }
 }
