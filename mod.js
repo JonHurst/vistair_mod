@@ -100,13 +100,18 @@ function contents_main() {
     master_toc(manual, function(t) {
 		   $("#loading").remove();
 		   $("#toc").append(t);
+                   $("a.toc_entry").click(
+                       function(ev) {
+                           ev.preventDefault();
+                           window.open($(this).attr("href"));
+                       });
 		   $("#toc li").each(fold_toc_section);});
 }
 
 
 function master_toc(manual, callback_func) {
     function recursive_process_master_toc(node) {
-	var item = $("<li><a href='" + manual + "/" +
+        var item = $("<li><a class='toc_entry' href='" + manual + "/" +
 		     node.filename + "#" + node.anchor +
 		     "'>" + node.title + "</a></li>");
 	if(node.children) {
