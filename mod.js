@@ -1,18 +1,21 @@
 var default_msn = "2037";
-var ezy_manuals = ["EZY-ALL-A_old", "EZY-ALL-A-JUN14", "EZY-A3XX-B_old", "EZY-A3XX-B-JUN14", "EZY-ALL-C-JUN14", "EZY-ALL-CSPM", "EZY-ALL-ABS"];
-var airbus_manuals = ["EZY-A3N-FCOM", "EZY-A3N-MEL", "EZY-A3N-FCTM", "EZY-A3N-QRH"];
+var ezy_manuals = [
+    "EZY-ALL-A_old", "EZY-ALL-A-JUN14", "EZY-A3XX-B_old",
+    "EZY-A3XX-B-JUN14", "EZY-ALL-C-JUN14", "EZY-ALL-CSPM", "EZY-ALL-ABS"];
+var airbus_manuals = [
+    "EZY-A3N-FCOM", "EZY-A3N-MEL", "EZY-A3N-FCTM", "EZY-A3N-QRH"];
 
 function ezy_manualp(manual) {
     for(var c = 0; c < ezy_manuals.length; c++) {
-	if(manual == ezy_manuals[c]) return true;
-	}
+        if(manual == ezy_manuals[c]) return true;
+        }
     return false;
 }
 
 function airbus_manualp(manual) {
     for(var c = 0; c < airbus_manuals.length; c++) {
-	if(manual == airbus_manuals[c]) return true;
-	}
+        if(manual == airbus_manuals[c]) return true;
+        }
     return false;
 }
 
@@ -31,21 +34,22 @@ function main() {
     if($("body.contents").length) {contents_main();}
     else if($("body.index").length) {index_main();}
     else {
-	//disable ipad.css
-	$("link[href='common/ipad.css']")[0].disabled=true;
-	//add keyhandling
-	$(document).keypress(keypress_handler);
-	//fix titles
-	insert_titles();
-	//get manual name
-	var manual = window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1);
-	//do manual specific processing
-	if(ezy_manualp(manual)) ezy_main();
-	else if(airbus_manualp(manual)) airbus_main();
-	//fix "popup" protocol
-	$("img").each(fix_popup_image);
-	//scroll hash back into view - may have been messed around by re-ordering etc
-	scroll_to_hash();
+        //disable ipad.css
+        $("link[href='common/ipad.css']")[0].disabled=true;
+        //add keyhandling
+        $(document).keypress(keypress_handler);
+        //fix titles
+        insert_titles();
+        //get manual name
+        var manual = window.location.href.match(/\/EZY-[^\/]+/)[0].substr(1);
+        //do manual specific processing
+        if(ezy_manualp(manual)) ezy_main();
+        else if(airbus_manualp(manual)) airbus_main();
+        //fix "popup" protocol
+        $("img").each(fix_popup_image);
+        //scroll hash back into view - may have been messed around
+        //by re-ordering etc
+        scroll_to_hash();
     }
 }
 
@@ -72,9 +76,9 @@ function airbus_main() {
                 });
     //Update anchors are now a.xref with hash as an elder sibling
     $("a.xref").each(function() {
-		     if($(this).text().match(/^H\d{1,4}$/))
-			 $(this).addClass("hide");
-		     });
+                     if($(this).text().match(/^H\d{1,4}$/))
+                         $(this).addClass("hide");
+                     });
     $("#content").addClass("show");
 }
 
@@ -83,11 +87,11 @@ function msn_cookie() {
     var msn = false;
     var cookies = document.cookie;
     if(cookies) {
-	var cookie_list = cookies.split("; ");
-	for(var c = 0; c < cookie_list.length; c++) {
+        var cookie_list = cookies.split("; ");
+        for(var c = 0; c < cookie_list.length; c++) {
            if(cookie_list[c].substr(0, 4) == "msn=") {
-		msn = cookie_list[c].substr(4);
-		break;
+                msn = cookie_list[c].substr(4);
+                break;
            }
        }
     }
@@ -193,7 +197,9 @@ function insert_titles() {
                 if(n.filename) {
                     var fn = n.filename;
                     if(n.anchor) fn += "#" + n.anchor;
-                    long_title.prepend($("<span class='nowrap'><a href='" + fn +  "'>" + n.title + "</a> »</span><span> </span>"));
+                    long_title.prepend($("<span class='nowrap'><a href='" +
+                                         fn +  "'>" + n.title +
+                                         "</a> »</span><span> </span>"));
                 }
                 return true;
             }
@@ -307,7 +313,7 @@ function scroll_to_hash() {
             effectivity_parent.removeClass("hidden");
             effectivity_parent.next().removeClass("hiding");
         }
-	$(hash_element).parents("div:first").find("a.xref").removeClass("hide");
-	hash_element.scrollIntoView();
+        $(hash_element).parents("div:first").find("a.xref").removeClass("hide");
+        hash_element.scrollIntoView();
     }
 }
