@@ -157,6 +157,40 @@ function index_main() {
                 $("#msn_field").text(newmsn + " ");
             }
         });
+    build_index();
+}
+
+
+function build_index() {
+    for(var c = 0; c < all_manuals.length; c++) {
+        var group = all_manuals[c];
+        var div = $("<div class='group'><h1>" + group.title + "</h1></div>");
+        //build ordered array of manuals within group
+        var manual_order = [];
+        for(var manual in group) {
+            if(manual.substr(0, 3) != "EZY") continue;
+            manual_order.push(manual);
+        }
+        manual_order.sort(
+            function(a, b) {
+                return group[a].order - group[b].order;
+            });
+        //build the lists
+        var list = $("<ul/>");
+        for(var d = 0; d < manual_order.length; d++){
+            var manual = manual_order[d];
+            var type = group[manual].type;
+            var url;
+            if(type == "pdf")
+                url = manual + "/" + manual + "_PDF.pdf";
+            else
+                url = "contents.html?" + manual;
+            list.append($("<li><a href='" + url + "'>"
+                          + group[manual].title + "</a></li>"));
+        }
+        div.append(list);
+        $(".mw_wrapper").append(div);
+    }
 }
 
 

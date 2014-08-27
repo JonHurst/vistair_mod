@@ -75,13 +75,11 @@ body.contents #toc {
 body.contents #toc li a{text-decoration:none;}
 body.contents #toc li a:hover{text-decoration:underline;}
 
-body.index .mw_wrapper > div {border: black 2px solid; padding:1em; margin: 1em; border-radius: 1em; background-color: white;}
-body.index .mw_wrapper {background-color: #404040;}
-body.index .mw_wrapper table {width:80%; margin:auto; text-align: center;}
-body.index td {width:25%;}
+body.index .mw_wrapper {background-color: white;}
 body.index #search_link {float:right;}
 body.index #msn {display: inline-block;}
-body.index #top_bar {margin-top: 0;}
+body.index ul {max-width:25em; margin:auto; list-style-type:none;}
+body.index div.group {padding:1em;}
 
 body.contents #msn {text-align:right;}
 body.contents #msn input {width:4em; color:green; font-weight: bold;}
