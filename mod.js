@@ -1,24 +1,21 @@
 var default_msn = "2037";
 
 function ezy_manualp(manual) {
-    for(var c = 0; c < ezy_manuals.length; c++) {
-        if(manual == ezy_manuals[c]) return true;
-        }
-    return false;
+    return (manual in ezy_manuals);
 }
 
+
 function airbus_manualp(manual) {
-    for(var c = 0; c < airbus_manuals.length; c++) {
-        if(manual == airbus_manuals[c]) return true;
-        }
-    return false;
+    return (manual in airbus_manuals);
 }
 
 
 $(main);
 
+
 var search = "";
 var hash = "";
+
 
 function main() {
     //search and hash extraction
