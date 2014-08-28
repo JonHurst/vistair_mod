@@ -284,7 +284,7 @@ function rejig_effectivity() {
             $("<div class='effectivity_toggle hiding'>"
               + "<a class='show' href='#'>Show alternative (" +
               not_effective[c].find(".dusol").attr("id").match(/\.[0-9]+/)[0].substr(1)
-              + ")</a><a class='hide' href='#'>Hide</a>"
+              + ")</a><a class='hideme' href='#'>Hide</a>"
               + "</div>").insertAfter(not_effective[c]);
         }
     }
