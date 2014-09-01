@@ -293,7 +293,7 @@ function rejig_effectivity() {
             $(this).parent().removeClass("hiding");
             $(this).parent().prev().removeClass("hidden");
             return false;});
-    $(".effectivity_toggle a.hide").click(
+    $(".effectivity_toggle a.hideme").click(
         function() {
             $(this).parent().addClass("hiding");
             $(this).parent().prev().addClass("hidden");
